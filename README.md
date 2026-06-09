@@ -10,9 +10,9 @@
 
 | | |
 |---|---|
-| 🌐 網站 | <https://tingwei161803.github.io/anthropic-agentic-coding-trend-2026/> |
+| 🌐 網站 | <https://anthropic-agentic-coding-trend-2026.peteraim.com/> |
 
-> 直接點進去就能用,無需安裝。可用 `https://tingwei161803.github.io/anthropic-agentic-coding-trend-2026/#<slug>` 深連結到特定趨勢(例如 `#trend-3-long-running`)。
+> 直接點進去就能用,無需安裝。可用 `https://anthropic-agentic-coding-trend-2026.peteraim.com/#<slug>` 深連結到特定趨勢(例如 `#trend-3-long-running`)。
 
 ---
 
