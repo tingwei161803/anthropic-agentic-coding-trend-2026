@@ -1,5 +1,5 @@
 /* =========================================================================
-   lazy-data2web · composite · app.js  (vanilla, no build, no chart lib)
+   composite · app.js  (vanilla, no build, no chart lib)
 
    A single long page assembled from an ordered list of typed section-blocks.
    The whole page is config-driven:
@@ -27,10 +27,10 @@
 
   /* ---------- i18n strings (UI chrome only) ---------- */
   var I18N = {
-    en: { footer: "Unofficial interactive edition of Anthropic’s 2026 Agentic Coding Trends Report · built with lazy-data2web, static, no build step.",
+    en: { footer: "Unofficial interactive edition of Anthropic’s 2026 Agentic Coding Trends Report · static site, no build step.",
           close: "Close", menu: "On this page",
           all: "All", predictions: "Predictions", inPractice: "In practice" },
-    zh: { footer: "Anthropic《2026 代理式編碼趨勢報告》非官方互動版 · 以 lazy-data2web 建置,純靜態、無建置流程。",
+    zh: { footer: "Anthropic《2026 代理式編碼趨勢報告》非官方互動版 · 純靜態網站,無建置流程。",
           close: "關閉", menu: "本頁導覽",
           all: "全部", predictions: "預測", inPractice: "實際案例" }
   };
