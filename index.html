@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" data-theme="light">
+<html lang="zh-Hant" data-theme="light">
 <head>
   <!-- ==== Google Analytics 4 (Measurement ID: G-Z0P1RP3BFQ) ==== -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z0P1RP3BFQ"></script>
@@ -14,22 +14,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <!-- ==== Primary meta (filled by app.js from SITE_META) ==== -->
-  <title>2026 Agentic Coding Trends — How coding agents are reshaping software development</title>
-  <meta name="description" content="An interactive, bilingual (EN / 中文) edition of Anthropic’s 2026 Agentic Coding Trends Report — eight predictions across foundation, capability, and impact, with real customer case studies. Unofficial." />
+  <title>2026 代理式編碼趨勢 · 編碼代理正如何重塑軟體開發</title>
+  <meta name="description" content="2025 年,編碼代理從實驗性工具走向能交付真實功能的生產系統。本報告整理 Anthropic 對 2026 年的八項預測,從「基礎」「能力」到「影響」三大面向,呈現這場轉變將如何重塑軟體開發。" />
   <link rel="canonical" href="https://anthropic-agentic-coding-trend-2026.peteraim.com/" />
   <meta name="theme-color" content="#BE5B3A" />
 
   <!-- ==== Open Graph ==== -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="2026 Agentic Coding Trends — How coding agents are reshaping software development" />
-  <meta property="og:description" content="An interactive, bilingual (EN / 中文) edition of Anthropic’s 2026 Agentic Coding Trends Report — eight predictions across foundation, capability, and impact, with real customer case studies. Unofficial." />
+  <meta property="og:title" content="2026 代理式編碼趨勢 · 編碼代理正如何重塑軟體開發" />
+  <meta property="og:description" content="2025 年,編碼代理從實驗性工具走向能交付真實功能的生產系統。本報告整理 Anthropic 對 2026 年的八項預測,從「基礎」「能力」到「影響」三大面向,呈現這場轉變將如何重塑軟體開發。" />
   <meta property="og:url" content="https://anthropic-agentic-coding-trend-2026.peteraim.com/" />
   <meta property="og:image" content="https://anthropic-agentic-coding-trend-2026.peteraim.com/assets/og-image.png" />
 
   <!-- ==== Twitter ==== -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="2026 Agentic Coding Trends — How coding agents are reshaping software development" />
-  <meta name="twitter:description" content="An interactive, bilingual (EN / 中文) edition of Anthropic’s 2026 Agentic Coding Trends Report — eight predictions across foundation, capability, and impact, with real customer case studies. Unofficial." />
+  <meta name="twitter:title" content="2026 代理式編碼趨勢 · 編碼代理正如何重塑軟體開發" />
+  <meta name="twitter:description" content="2025 年,編碼代理從實驗性工具走向能交付真實功能的生產系統。本報告整理 Anthropic 對 2026 年的八項預測,從「基礎」「能力」到「影響」三大面向,呈現這場轉變將如何重塑軟體開發。" />
   <meta name="twitter:image" content="https://anthropic-agentic-coding-trend-2026.peteraim.com/assets/og-image.png" />
 
   <!-- ==== JSON-LD structured data ==== -->
@@ -37,8 +37,8 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "2026 Agentic Coding Trends — How coding agents are reshaping software development",
-    "description": "An interactive, bilingual (EN / 中文) edition of Anthropic’s 2026 Agentic Coding Trends Report — eight predictions across foundation, capability, and impact, with real customer case studies. Unofficial.",
+    "name": "2026 代理式編碼趨勢 · 編碼代理正如何重塑軟體開發",
+    "description": "2025 年,編碼代理從實驗性工具走向能交付真實功能的生產系統。本報告整理 Anthropic 對 2026 年的八項預測,從「基礎」「能力」到「影響」三大面向,呈現這場轉變將如何重塑軟體開發。",
     "url": "https://anthropic-agentic-coding-trend-2026.peteraim.com"
   }
   </script>
@@ -57,15 +57,16 @@
     <div class="appbar__inner">
       <a class="brand" href="#top">
         <span class="material-symbols-rounded brand__logo">auto_awesome</span>
-        <span class="brand__name" id="brandName">2026 Agentic Coding Trends — How coding agents are reshaping software development</span>
+        <span class="brand__name" id="brandName">2026 代理式編碼趨勢</span>
       </a>
 
       <div class="appbar__actions">
-        <button class="icon-btn" id="langToggle" type="button"
-                title="Language" aria-label="Toggle language / 切換語言">
+        <a class="icon-btn" id="langToggle" href="/en/"
+           hreflang="en" rel="alternate" lang="en"
+           title="English" aria-label="Read this page in English">
           <span class="material-symbols-rounded">translate</span>
-          <span class="icon-btn__txt" id="langLabel">中</span>
-        </button>
+          <span class="icon-btn__txt">EN</span>
+        </a>
 
         <button class="icon-btn" id="themeToggle" type="button"
                 title="Theme" aria-label="Toggle theme / 切換主題">
@@ -100,7 +101,7 @@
 
   <!-- ==== Footer ==== -->
   <footer class="footer">
-    <p id="footerText" data-i18n="footer">Unofficial interactive edition, static site, no build step.</p>
+    <p id="footerText" data-i18n="footer">Anthropic《2026 代理式編碼趨勢報告》非官方互動版 · 純靜態網站,無建置流程。</p>
       <div class="profile-links" style="display:flex;gap:12px;justify-content:center;align-items:center;margin-top:10px">
         <a class="icon-btn" href="https://www.peteraim.com" target="_blank" rel="noopener" title="Home" aria-label="Back to peteraim.com / 返回首頁">
           <span class="material-symbols-rounded">home</span>
