@@ -14,9 +14,10 @@
    body of that section. To add a new block type, add one entry to RENDERERS
    and (optionally) an icon to NAV_ICONS — nothing else needs to change.
 
-   A single render() call repaints EVERY section + the sticky nav + chrome +
-   <title> in the active language, so the zh/en toggle never leaves anything
-   stuck. Hero stat counters animate (count-up) when scrolled into view.
+   A single render() call paints EVERY section + the sticky nav + chrome +
+   <title> in the page's language, which is read from <html lang>: each
+   language has its own URL, so nothing switches in place. Hero stat counters
+   animate (count-up) when scrolled into view.
    ========================================================================= */
 (function () {
   "use strict";
@@ -42,9 +43,16 @@
   function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } }
 
-  /* ---------- global state ---------- */
+  /* ---------- global state ----------
+     The language is whatever the page declares in <html lang> — the address
+     decides it, not a stored preference. That keeps a shared link, a reload
+     and a crawler visit on the same language every time. ---------- */
+  function docLang() {
+    var declared = (document.documentElement.getAttribute("lang") || "en").toLowerCase();
+    return declared.indexOf("zh") === 0 ? "zh" : "en";
+  }
   var state = {
-    lang:  lsGet("lang")  || "en",       // default language: zh
+    lang:  docLang(),
     theme: lsGet("theme") || "light"
   };
 
@@ -317,7 +325,6 @@
   }
 
   function paintChrome() {
-    document.documentElement.setAttribute("lang", state.lang);
     var titleStr = t(META.title);
     var subStr = t(META.subtitle);
     document.title = subStr ? titleStr + " · " + subStr : titleStr;
@@ -509,11 +516,6 @@
     if (icon) icon.textContent = state.theme === "dark" ? "light_mode" : "dark_mode";
     lsSet("theme", state.theme);
   }
-  function applyLangChrome() {
-    var label = $("langLabel");
-    if (label) label.textContent = state.lang === "en" ? "EN" : "中";
-    lsSet("lang", state.lang);
-  }
 
   /* =======================================================================
      WIRING
@@ -524,13 +526,8 @@
       applyTheme();
     });
 
-    $("langToggle").addEventListener("click", function () {
-      state.lang = state.lang === "en" ? "zh" : "en";
-      applyLangChrome();
-      var openSlug = isSlugHash() ? location.hash.slice(1) : null;
-      render();                       // repaint EVERYTHING in the new language
-      if (dialog.open && openSlug) openDialog(openSlug);  // repaint open dialog too
-    });
+    /* #langToggle is a plain <a> to the other language's URL — the browser
+       navigates, so there is nothing to wire up here. */
 
     $("dialogClose").addEventListener("click", closeDialog);
     dialog.addEventListener("click", function (e) { if (e.target === dialog) closeDialog(); });
@@ -554,7 +551,6 @@
      ===================================================================== */
   function init() {
     applyTheme();
-    applyLangChrome();
     render();
     wire();
     syncFromHash();
