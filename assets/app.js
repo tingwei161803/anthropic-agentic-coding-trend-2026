@@ -18,7 +18,7 @@
    <title> in the page's language, which is read from <html lang>: each
    language has its own URL, so nothing switches in place.
 
-   Sections that carry a `short` label are numbered §1, §2 … like a printed
+   Sections that carry a `short` label are numbered 1, 2 … like the panels of a
    report; only those appear in the table of contents.
    ========================================================================= */
 (function () {
@@ -94,11 +94,13 @@
       ? '<p class="section-head__sub">' + escapeHtml(t(sec.subtitle)) + "</p>"
       : "";
     var num = SEC_NUM[sec.id]
-      ? '<span class="section-head__num" aria-hidden="true">§' + SEC_NUM[sec.id] + "</span>"
+      ? '<span class="section-head__num" aria-hidden="true">' + SEC_NUM[sec.id] + "</span>"
       : "";
     return '<header class="section-head">' + num +
-      "<" + tag + ' id="' + escapeHtml(sec.id) + '-heading">' + escapeHtml(t(sec.title)) + "</" + tag + ">" +
-      sub + "</header>";
+      '<div class="section-head__text">' +
+        "<" + tag + ' id="' + escapeHtml(sec.id) + '-heading">' + escapeHtml(t(sec.title)) + "</" + tag + ">" +
+        sub +
+      "</div></header>";
   }
 
   /* "Trend 3 · Long-running agents…" -> { n: "3", title: "Long-running agents…" } */
@@ -112,6 +114,14 @@
       : "";
   }
   function pct(v) { return Math.max(0, Math.min(100, Number(v) || 0)); }
+  /* "<72 小時" -> a big "<72" and a small unit "小時", so the figure,
+     not the word, carries a ledger row or a case sheet */
+  function figureHtml(metric) {
+    var mm = /^([<>~]?[\d.,]+(?:[KkM]\+?)?[+×%]*)\s*(.*)$/.exec(metric);
+    return mm
+      ? escapeHtml(mm[1]) + (mm[2] ? '<span class="ledger__unit">' + escapeHtml(mm[2]) + "</span>" : "")
+      : escapeHtml(metric);
+  }
 
   /* =======================================================================
      SECTION-TYPE REGISTRY
@@ -120,7 +130,8 @@
      ===================================================================== */
   var RENDERERS = {
 
-    /* ---- hero: title, unofficial notice, and the "delegation gap" bar.
+    /* ---- hero: the unofficial notice, a poster title, and the
+       "delegation gap" drawn as one full-bleed bar.
        stats carry a role: use (share of work that uses AI), delegate (the
        fully-delegated range), aside / kicker (supporting figures). ---- */
     hero: function (sec) {
@@ -138,34 +149,14 @@
           "<span>" + escapeHtml(t(sec.notice.text)) + "</span></p>";
       }
 
-      var gap = "";
-      var use = by.use, del = by.delegate;
-      if (sec.gap && use && del) {
-        var useW = pct(use.value), delFrom = pct(del.from), delTo = pct(del.to);
-        var alt = ui("gapAlt") + ": " + num(use) + " " + t(use.label) + ", " + num(del) + " " + t(del.label) + ".";
-        gap =
-          '<figure class="gap">' +
-            '<p class="gap__headline">' + escapeHtml(t(sec.gap.headline)) + "</p>" +
-            '<div class="gap__chart" role="img" aria-label="' + escapeHtml(alt) + '" ' +
-                'style="--use:' + useW + "%;--del-from:" + delFrom + "%;--del-to:" + delTo + '%">' +
-              '<div class="gap__mark gap__mark--use" aria-hidden="true">' +
-                '<b class="gap__num">' + num(use) + "</b>" +
-                '<span class="gap__label">' + escapeHtml(t(use.label)) + "</span>" +
-              "</div>" +
-              '<div class="gap__bar" aria-hidden="true">' +
-                '<span class="gap__use"></span><span class="gap__del"></span>' +
-              "</div>" +
-              '<div class="gap__under" aria-hidden="true">' +
-                '<div class="gap__mark gap__mark--del">' +
-                  '<b class="gap__num">' + num(del) + "</b>" +
-                  '<span class="gap__label">' + escapeHtml(t(del.label)) + "</span>" +
-                "</div>" +
-                '<span class="gap__scale">' + escapeHtml(t(sec.gap.scale)) + " · 100%</span>" +
-              "</div>" +
-            "</div>" +
-            (t(sec.gap.source) ? '<figcaption class="gap__source">' + escapeHtml(t(sec.gap.source)) + "</figcaption>" : "") +
-          "</figure>";
-      }
+      /* "2026 Agentic Coding Trends" -> a year line and a name line */
+      var title = t(sec.title);
+      var tm = /^(\d{4})\s+(.+)$/.exec(title);
+      var h1 = '<h1 class="hero__title" id="' + escapeHtml(sec.id) + '-heading">' +
+        (tm
+          ? '<span class="hero__year">' + escapeHtml(tm[1]) + '</span> <span class="hero__name">' + escapeHtml(tm[2]) + "</span>"
+          : escapeHtml(title)) +
+        "</h1>";
 
       var asides = ["aside", "kicker"].filter(function (k) { return by[k]; }).map(function (k) {
         var s = by[k];
@@ -175,9 +166,38 @@
           : "<li>" + inner + "</li>";
       }).join("");
 
-      return '<div class="hero__intro">' + sectionHead(sec, "h1") + notice + "</div>" +
-        gap +
-        (asides ? '<ul class="hero__asides">' + asides + "</ul>" : "");
+      var gap = "";
+      var use = by.use, del = by.delegate;
+      if (sec.gap && use && del) {
+        var alt = ui("gapAlt") + ": " + num(use) + " " + t(use.label) + ", " + num(del) + " " + t(del.label) + ".";
+        var ticks = [0, 20, 40, 60, 80, 100].map(function (v) { return "<li>" + v + "</li>"; }).join("");
+        gap =
+          '<figure class="gap">' +
+            '<p class="gap__headline">' + escapeHtml(t(sec.gap.headline)) + "</p>" +
+            '<div class="gap__chart" role="img" aria-label="' + escapeHtml(alt) + '" ' +
+                'style="--use:' + pct(use.value) + "%;--del:" + pct(del.to) + '%">' +
+              '<div class="gap__bar" aria-hidden="true">' +
+                '<span class="gap__use"></span><span class="gap__del"></span>' +
+                '<span class="gap__mark gap__mark--use"><b class="gap__num">' + num(use) + "</b>" +
+                  '<span class="gap__label">' + escapeHtml(t(use.label)) + "</span></span>" +
+                '<span class="gap__mark gap__mark--del"><b class="gap__num">' + num(del) + "</b>" +
+                  '<span class="gap__label">' + escapeHtml(t(del.label)) + "</span></span>" +
+                '<span class="gap__scale">' + escapeHtml(t(sec.gap.scale)) + "</span>" +
+              "</div>" +
+              '<ol class="gap__ticks" aria-hidden="true">' + ticks + "</ol>" +
+            "</div>" +
+            (t(sec.gap.source) ? '<figcaption class="gap__source">' + escapeHtml(t(sec.gap.source)) + "</figcaption>" : "") +
+          "</figure>";
+      }
+
+      return notice +
+        '<div class="hero__top">' + h1 +
+          '<div class="hero__side">' +
+            (t(sec.subtitle) ? '<p class="hero__sub">' + escapeHtml(t(sec.subtitle)) + "</p>" : "") +
+            (asides ? '<ul class="hero__asides">' + asides + "</ul>" : "") +
+          "</div>" +
+        "</div>" +
+        gap;
     },
 
     /* ---- cards: a collection of items that open the detail dialog.
@@ -225,15 +245,19 @@
       if (sec.layout === "ledger") {
         var rows = items.map(function (item) {
           var metric = t(item.metric);
+          /* the headline figure leads the row; a case without one keeps the
+             column with a quiet dash so every row lines up */
           return "<li>" + opener(item, "ledger__row" + (metric ? "" : " ledger__row--nometric"),
+            (metric
+              ? '<b class="ledger__metric">' + figureHtml(metric) + "</b>"
+              : '<span class="ledger__metric" aria-hidden="true">–</span>') +
             '<h3 class="ledger__co">' + escapeHtml(t(item.title)) + "</h3>" +
-            (metric ? '<b class="ledger__metric">' + escapeHtml(metric) + "</b>" : "") +
             '<div class="ledger__text">' +
               '<p class="ledger__summary">' + escapeHtml(t(item.summary)) + "</p>" +
               tagLine(item.tags) +
             "</div>" +
-            '<span class="material-symbols-rounded ledger__open" aria-hidden="true" title="' +
-              escapeHtml(ui("openStory")) + '">add</span>') + "</li>";
+            '<span class="ledger__open" aria-hidden="true" title="' +
+              escapeHtml(ui("openStory")) + '">+</span>') + "</li>";
         }).join("");
         return sectionHead(sec) + '<ol class="ledger">' + rows + "</ol>";
       }
@@ -247,14 +271,18 @@
       return sectionHead(sec) + '<div class="grid">' + cards + "</div>";
     },
 
-    /* ---- timeline: dated steps along a widening rail (the horizon grows) ---- */
+    /* ---- timeline: dated steps, each with a bar that grows with the
+       horizon (minutes -> hours -> days/weeks); the last one is the forecast ---- */
     timeline: function (sec) {
-      var items = (sec.events || []).map(function (ev) {
-        return '<li class="tl-item">' +
-          '<span class="tl-dot" aria-hidden="true"></span>' +
+      var evs = sec.events || [];
+      var items = evs.map(function (ev, i) {
+        return '<li class="tl-item' + (i === evs.length - 1 ? " tl-item--next" : "") + '">' +
           '<span class="tl-date">' + escapeHtml(t(ev.date)) + "</span>" +
-          '<h3 class="tl-title">' + escapeHtml(t(ev.title)) + "</h3>" +
-          '<p class="tl-body">' + escapeHtml(t(ev.body)) + "</p>" +
+          '<div class="tl-text">' +
+            '<h3 class="tl-title">' + escapeHtml(t(ev.title)) + "</h3>" +
+            '<p class="tl-body">' + escapeHtml(t(ev.body)) + "</p>" +
+          "</div>" +
+          '<span class="tl-bar" aria-hidden="true" style="--reach:' + Math.round((i + 1) / evs.length * 100) + '%"></span>' +
         "</li>";
       }).join("");
       return sectionHead(sec) + '<ol class="timeline">' + items + "</ol>";
@@ -282,7 +310,7 @@
         return '<details class="acc-item">' +
           '<summary class="acc-q">' +
             "<span>" + escapeHtml(t(row.q)) + "</span>" +
-            '<span class="material-symbols-rounded acc-chevron" aria-hidden="true">expand_more</span>' +
+            '<span class="acc-chevron" aria-hidden="true">+</span>' +
           "</summary>" +
           '<div class="acc-a">' + escapeHtml(t(row.a)) + "</div>" +
         "</details>";
@@ -324,8 +352,7 @@
       if (sec.link && sec.link.url) {
         link = '<a class="cta-btn" href="' + escapeHtml(sec.link.url) + '" ' +
           'target="_blank" rel="noopener">' +
-          escapeHtml(t(sec.link.label)) +
-          '<span class="material-symbols-rounded" aria-hidden="true">north_east</span></a>';
+          escapeHtml(t(sec.link.label)) + "</a>";
       }
       return '<div class="cta-card">' +
         "<h2>" + escapeHtml(t(sec.title)) + "</h2>" +
@@ -353,7 +380,7 @@
     wireCards();
   }
 
-  /* table of contents: only the numbered sections, "§n  short label" */
+  /* table of contents: only the numbered sections, "n  short label" */
   function paintNav() {
     navInner.innerHTML = "";
     SECTIONS.forEach(function (sec) {
@@ -363,7 +390,7 @@
       a.href = "#" + sec.id;
       a.dataset.target = sec.id;
       a.innerHTML =
-        '<span class="navpill__num" aria-hidden="true">§' + SEC_NUM[sec.id] + "</span>" +
+        '<span class="navpill__num" aria-hidden="true">' + SEC_NUM[sec.id] + "</span>" +
         "<span>" + escapeHtml(t(sec.short)) + "</span>";
       a.addEventListener("click", function (e) {
         e.preventDefault();
@@ -478,7 +505,7 @@
         }
       });
     }
-    var metric = t(item.metric) ? '<p class="dialog__metric">' + escapeHtml(t(item.metric)) + "</p>" : "";
+    var metric = t(item.metric) ? '<p class="dialog__metric">' + figureHtml(t(item.metric)) + "</p>" : "";
 
     /* optional predictions list: { en:[...], zh:[...] } */
     var preds = "";
@@ -536,8 +563,10 @@
      ===================================================================== */
   function applyTheme() {
     document.documentElement.setAttribute("data-theme", state.theme);
-    var icon = $("themeIcon");
-    if (icon) icon.textContent = state.theme === "dark" ? "light_mode" : "dark_mode";
+    /* the icon is a CSS half-disc that flips with data-theme; the button
+       just reports its state */
+    var btn = $("themeToggle");
+    if (btn) btn.setAttribute("aria-pressed", state.theme === "dark" ? "true" : "false");
   }
 
   /* =======================================================================
