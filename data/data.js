@@ -356,7 +356,7 @@ window.SITE_SECTIONS = [
                 zh: "已經用代理式編碼交付成果的真實組織。點開任一列看完整故事。" },
     items: [
       { slug: "case-augment", title: { en: "Augment Code", zh: "Augment Code" },
-        metric: { en: "2 weeks", zh: "兩週" },
+        metric: { en: "2 weeks", zh: "2 週" },
         summary: { en: "A 4–8 month project, finished in two weeks.", zh: "原估 4–8 個月的專案，兩週完成。" },
         tags: ["dev tools", "onboarding"],
         overview: { en: "A startup building AI-powered software development tools used Claude to flatten the learning curve for engineers joining a new codebase, providing deep contextual understanding. One enterprise customer finished a project their CTO had initially estimated would take 4–8 months in just two weeks.",
