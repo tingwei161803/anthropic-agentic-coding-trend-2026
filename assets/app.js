@@ -31,7 +31,7 @@
     en: { footer: "Unofficial interactive edition of Anthropic’s 2026 Agentic Coding Trends Report · static site, no build step.",
           close: "Close", menu: "On this page",
           all: "All", predictions: "Predictions", inPractice: "In practice" },
-    zh: { footer: "Anthropic《2026 代理式編碼趨勢報告》非官方互動版 · 純靜態網站,無建置流程。",
+    zh: { footer: "Anthropic《2026 代理式編碼趨勢報告》非官方互動版 · 純靜態網站，無建置流程。",
           close: "關閉", menu: "本頁導覽",
           all: "全部", predictions: "預測", inPractice: "實際案例" }
   };
