@@ -300,7 +300,7 @@ p { margin: 0; }
 .gap__num { font-size: clamp(60px, 7.6vw, 124px); line-height: .8; }
 .gap__label { font-size: 0.9375rem; font-weight: 800; line-height: 1.25; max-width: 14em; }
 /* the range label crosses the hatching, so it sits on its own chip */
-.gap__mark--del .gap__label { background: var(--ink); color: var(--paper); padding: 1px 6px; margin-left: -6px; }
+.gap__mark--del .gap__label { align-self: flex-start; background: var(--ink); color: var(--paper); padding: 1px 6px; margin-left: -6px; }
 .gap__scale {
   position: absolute; right: var(--pad); top: 14px;
   font-weight: 800; font-size: 0.9375rem; color: var(--ink-2);
