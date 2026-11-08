@@ -28,11 +28,24 @@ window.SITE_SECTIONS = [
                 zh: "2026 代理式編碼趨勢" },
     subtitle: { en: "In 2025, coding agents moved from experimental tools to production systems shipping real features. This report distils Anthropic’s eight predictions for how that shift reshapes software development in 2026 — across foundation, capability, and impact.",
                 zh: "2025 年，編碼代理從實驗性工具走向能交付真實功能的生產系統。本報告整理 Anthropic 對 2026 年的八項預測，從「基礎」「能力」到「影響」三大面向，呈現這場轉變將如何重塑軟體開發。" },
+    notice: {
+      label: { en: "Unofficial digest", zh: "非官方整理" },
+      text:  { en: "Summarised from Anthropic’s report by an independent reader. Where anything differs, the original report is authoritative.",
+               zh: "由個人整理自 Anthropic 的報告，並非 Anthropic 官方網站；如有出入，請以原報告為準。" }
+    },
+    /* the report's central tension, drawn as the hero bar */
+    gap: {
+      headline: { en: "AI touches six in ten pieces of work, yet developers fully hand off at most one in five.",
+                  zh: "AI 參與六成工作，但真正放手的只有兩成以內。" },
+      scale:    { en: "All developer work", zh: "全部開發工作" },
+      source:   { en: "Source: Anthropic Societal Impacts research, as cited in the report.",
+                  zh: "來源：Anthropic 社會影響研究（報告引用）。" }
+    },
     stats: [
-      { value: 8,  label: { en: "Key trends", zh: "項關鍵趨勢" } },
-      { value: 60, suffix: "%", label: { en: "Of developer work uses AI", zh: "開發者工作用到 AI" } },
-      { value: 27, suffix: "%", label: { en: "Of AI-assisted work is net-new", zh: "AI 輔助工作屬全新增量" } },
-      { display: { en: "0–20%", zh: "0–20%" }, label: { en: "Of tasks fully delegated", zh: "任務真正完全委派" } }
+      { role: "kicker",   value: 8,  label: { en: "Key trends", zh: "項關鍵趨勢" } },
+      { role: "use",      value: 60, suffix: "%", label: { en: "Of developer work uses AI", zh: "開發者工作用到 AI" } },
+      { role: "aside",    value: 27, suffix: "%", label: { en: "Of AI-assisted work is net-new", zh: "AI 輔助工作屬全新增量" } },
+      { role: "delegate", from: 0, to: 20, display: { en: "0–20%", zh: "0–20%" }, label: { en: "Of tasks fully delegated", zh: "任務真正完全委派" } }
     ]
   },
 
@@ -40,6 +53,7 @@ window.SITE_SECTIONS = [
   {
     type: "prose",
     id: "foreword",
+    short: { en: "Foreword", zh: "前言" },
     title:    { en: "Foreword — from assistance to collaboration",
                 zh: "前言 — 從輔助走向協作" },
     subtitle: { en: "What changed in 2025, and the collaborative reality underneath the gains.",
@@ -72,13 +86,18 @@ window.SITE_SECTIONS = [
   {
     type: "cards",
     id: "trends",
+    short: { en: "Eight trends", zh: "八大趨勢" },
     title:    { en: "The eight trends", zh: "八大趨勢" },
-    subtitle: { en: "Filter by category, then tap any trend for its predictions and a real customer example.",
-                zh: "依類別篩選，點開任一趨勢可看到其預測與真實客戶案例。" },
+    subtitle: { en: "Grouped by dimension. Tap any trend for its predictions and a real customer example.",
+                zh: "依三大面向分組，點開任一趨勢可看到其預測與真實客戶案例。" },
+    layout: "bands",
     filters: [
-      { key: "foundation", label: { en: "Foundation", zh: "基礎" } },
-      { key: "capability", label: { en: "Capability", zh: "能力" } },
-      { key: "impact",     label: { en: "Impact",     zh: "影響" } }
+      { key: "foundation", label: { en: "Foundation", zh: "基礎" },
+        note: { en: "The tectonic shift in how development work happens.", zh: "重塑開發工作方式的地殼級轉變。" } },
+      { key: "capability", label: { en: "Capability", zh: "能力" },
+        note: { en: "What agents will be able to accomplish.", zh: "代理將能達成的事。" } },
+      { key: "impact",     label: { en: "Impact",     zh: "影響" },
+        note: { en: "What changes for business outcomes and organizations.", zh: "牽動商業成果與組織結構的變化。" } }
     ],
     items: [
       {
@@ -305,6 +324,7 @@ window.SITE_SECTIONS = [
   {
     type: "timeline",
     id: "evolution",
+    short: { en: "Task horizon", zh: "任務跨度" },
     accent: "blue",
     title:    { en: "The expanding task horizon", zh: "不斷擴張的任務時間跨度" },
     subtitle: { en: "How far an agent can run on its own has stretched from minutes to weeks.",
@@ -329,26 +349,32 @@ window.SITE_SECTIONS = [
   {
     type: "cards",
     id: "customers",
+    short: { en: "Evidence", zh: "實證案例" },
+    layout: "ledger",
     title:    { en: "Proof in production", zh: "生產環境中的實證" },
-    subtitle: { en: "Real organizations already shipping with agentic coding. Tap a card for the full story.",
-                zh: "已經用代理式編碼交付成果的真實組織。點開卡片看完整故事。" },
+    subtitle: { en: "Real organizations already shipping with agentic coding. Tap a row for the full story.",
+                zh: "已經用代理式編碼交付成果的真實組織。點開任一列看完整故事。" },
     items: [
       { slug: "case-augment", title: { en: "Augment Code", zh: "Augment Code" },
+        metric: { en: "2 weeks", zh: "兩週" },
         summary: { en: "A 4–8 month project, finished in two weeks.", zh: "原估 4–8 個月的專案，兩週完成。" },
         tags: ["dev tools", "onboarding"],
         overview: { en: "A startup building AI-powered software development tools used Claude to flatten the learning curve for engineers joining a new codebase, providing deep contextual understanding. One enterprise customer finished a project their CTO had initially estimated would take 4–8 months in just two weeks.",
                     zh: "一家打造 AI 軟體開發工具的新創公司，用 Claude 提供深度脈絡理解，大幅降低工程師熟悉新程式庫的門檻。一位企業客戶把 CTO 原估 4–8 個月的專案，在短短兩週內完成。" } },
       { slug: "case-fountain", title: { en: "Fountain", zh: "Fountain" },
+        metric: { en: "<72 h", zh: "<72 小時" },
         summary: { en: "50% faster screening · 2× conversions · staffing in <72h.", zh: "篩選快 50% · 轉換 2 倍 · 配齊人力 <72 小時。" },
         tags: ["multi-agent", "HR tech"],
         overview: { en: "A frontline workforce management platform achieved 50% faster screening, 40% quicker onboarding, and 2× candidate conversions using Claude for hierarchical multi-agent orchestration. Fountain Copilot coordinates specialized sub-agents — letting one logistics customer fully staff a new fulfillment center in under 72 hours instead of one or more weeks.",
                     zh: "一個第一線人力管理平台，以 Claude 進行階層式多代理協調，達成篩選快 50%、入職快 40%、應徵者轉換率 2 倍。Fountain Copilot 統籌各專責子代理——讓一家物流客戶把「為新履約中心配齊人力」從一週以上縮短到 72 小時內。" } },
       { slug: "case-rakuten", title: { en: "Rakuten", zh: "樂天 Rakuten" },
+        metric: { en: "99.9%", zh: "99.9%" },
         summary: { en: "7 hours autonomous on a 12.5M-line codebase · 99.9% accuracy.", zh: "在 1,250 萬行程式庫上自主 7 小時 · 99.9% 準確度。" },
         tags: ["long-running", "open source"],
         overview: { en: "Engineers tested Claude Code on a complex task: implement an activation-vector extraction method in vLLM — a 12.5-million-line open-source library — across multiple languages. Claude Code finished the entire job in seven hours of autonomous work in a single run, achieving 99.9% numerical accuracy versus the reference method.",
                     zh: "工程師以複雜任務測試 Claude Code：在 vLLM（1,250 萬行的開源函式庫）中，以多種語言實作激活向量擷取方法。Claude Code 在單次執行中以七小時自主工作完成整件任務，達到與參考方法相比 99.9% 的數值準確度。" } },
       { slug: "case-cred", title: { en: "CRED", zh: "CRED" },
+        metric: { en: "2×", zh: "2×" },
         summary: { en: "2× execution speed across a fintech serving 15M+ users.", zh: "服務逾 1,500 萬用戶的金融科技，執行速度翻倍。" },
         tags: ["fintech", "velocity"],
         overview: { en: "A fintech platform serving over 15 million users across India implemented Claude Code across its entire development lifecycle, doubling execution speed while maintaining the quality standards essential for financial services — not by eliminating human involvement, but by shifting developers toward higher-value work.",
@@ -359,16 +385,19 @@ window.SITE_SECTIONS = [
         overview: { en: "An AI-powered legal platform integrates agentic workflows throughout its product. “We have found Claude to be brilliant at instruction following, and at building agents and agentic workflows,” said CEO Max Junestrand. Legora uses Claude Code to accelerate its own development while providing agentic capabilities to lawyers who need to create sophisticated automations without engineering expertise.",
                     zh: "一個 AI 驅動的法律平台，在整個產品中整合代理式工作流。執行長 Max Junestrand 表示：「我們發現 Claude 在遵循指示、以及建構代理與代理式工作流方面都極為出色。」Legora 用 Claude Code 加速自家開發，同時讓需要建立精密自動化、卻不具工程背景的律師也能擁有代理能力。" } },
       { slug: "case-telus", title: { en: "TELUS", zh: "TELUS" },
+        metric: { en: "500K+ h", zh: "50 萬+ 小時" },
         summary: { en: "13,000+ custom AI solutions · 500,000+ hours saved.", zh: "13,000+ 個客製 AI 解法 · 省下逾 50 萬小時。" },
         tags: ["telecom", "org-wide"],
         overview: { en: "A leading communications technology company whose teams created over 13,000 custom AI solutions while shipping engineering code 30% faster. The company has saved over 500,000 hours, averaging 40 minutes saved per AI interaction — much of it “papercut” work that improves quality of life but is typically deprioritized.",
                     zh: "一家領先的通訊科技公司，其團隊打造逾 13,000 個客製 AI 解法，同時讓工程程式碼交付快 30%。公司已省下逾 50 萬小時，平均每次 AI 互動省下 40 分鐘——其中許多是改善體驗、卻通常被排到後面的「紙割傷」型工作。" } },
       { slug: "case-zapier", title: { en: "Zapier", zh: "Zapier" },
+        metric: { en: "89%", zh: "89%" },
         summary: { en: "89% AI adoption org-wide · 800+ internal agents.", zh: "全組織 89% AI 採用率 · 800+ 內部代理。" },
         tags: ["automation", "non-technical"],
         overview: { en: "A leading AI orchestration platform made agents accessible to all employees. Design teams use Claude artifacts to rapidly prototype concepts in real-time during customer interviews, showing in minutes what would normally take weeks. Zapier achieved 89% AI adoption across the entire organization, with 800-plus AI agents deployed internally.",
                     zh: "一個領先的 AI 協調平台，讓全體員工都能使用代理。設計團隊在客戶訪談現場用 Claude artifacts 即時打造原型，幾分鐘展示原本要數週的成果。Zapier 在全組織達到 89% AI 採用率，內部部署 800 多個 AI 代理。" } },
       { slug: "case-anthropic-legal", title: { en: "Anthropic — Legal", zh: "Anthropic — 法務" },
+        metric: { en: "24 h", zh: "24 小時" },
         summary: { en: "Contract review turnaround: 2–3 days → 24 hours.", zh: "合約審查周轉：2–3 天 → 24 小時。" },
         tags: ["internal", "legal"],
         overview: { en: "Anthropic’s own legal team reduced contract-review turnaround from two-to-three days down to 24 hours by building Claude-powered workflows that automate repetitive tasks like contract redlining and content review. Using Claude Code, a lawyer with no coding experience built self-service tools that triage issues before they hit the legal queue — freeing attorneys to focus on strategic counsel instead of tactical busywork.",
@@ -380,6 +409,7 @@ window.SITE_SECTIONS = [
   {
     type: "quotes",
     id: "voices",
+    short: { en: "Voices", zh: "第一線聲音" },
     accent: "purple",
     title:    { en: "Voices from the field", zh: "來自第一線的聲音" },
     subtitle: { en: "How practitioners describe working alongside agents.",
@@ -404,14 +434,14 @@ window.SITE_SECTIONS = [
   {
     type: "bars",
     id: "data",
-    accent: "green",
+    short: { en: "Usage data", zh: "使用數據" },
     title:    { en: "How developers actually use AI", zh: "開發者實際如何使用 AI" },
     subtitle: { en: "Share of work by mode (%). Source: Anthropic Societal Impacts research. The gap between “use” and “fully delegate” is the collaborative reality.",
                 zh: "依使用模式的工作占比（%）。來源：Anthropic 社會影響研究。「使用」與「完全委派」之間的落差，正是協作的真實樣貌。" },
     series: [
       { label: { en: "Use AI",         zh: "使用 AI" },   value: 60 },
       { label: { en: "Net-new work",   zh: "全新增量" },   value: 27 },
-      { label: { en: "Fully delegate", zh: "完全委派" },   value: 20 }
+      { label: { en: "Fully delegate", zh: "完全委派" },   value: 20, from: 0, display: "0–20" }
     ]
   },
 
@@ -419,6 +449,7 @@ window.SITE_SECTIONS = [
   {
     type: "prose",
     id: "priorities",
+    short: { en: "Priorities", zh: "優先事項" },
     accent: "pink",
     title:    { en: "Priorities for the year ahead", zh: "未來一年的優先事項" },
     subtitle: { en: "Four areas that demand immediate attention in 2026.",
